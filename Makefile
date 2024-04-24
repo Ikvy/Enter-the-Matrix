@@ -1,6 +1,6 @@
-SRCS	= srcs/main.cpp \
+SRCS	= srcs/Matrice.cpp \
 		  srcs/Vector.cpp \
-		  srcs/Matrice.cpp \
+		  srcs/main.cpp \
 
 OBJS	=  ${SRCS:.cpp=.o}
 

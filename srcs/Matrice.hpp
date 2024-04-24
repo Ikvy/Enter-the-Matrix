@@ -2,6 +2,10 @@
 #include <iostream>
 #include <vector>
 
+
+template <typename T>
+class Vector;
+
 template <typename T>
 class Matrice {
 private:
@@ -16,8 +20,21 @@ public:
     T& operator()(size_t x, size_t y) { return data[x][y]; }
     const T& operator()(size_t x, size_t y) const { return data[x][y]; }
 
-};
+	bool isSquare() const {return size_x() == size_y() ? 1 : 0;}
 
+	Vector<T> toVector() const{
+		Vector<T> ret(size_x() * size_y());
+		size_t k = 0;
+		for (size_t i = 0; i < size_x() ; ++i) {
+    		for (size_t j = 0; j < size_y() ; ++j) {
+				ret[k] = data[i][j];
+				++k;
+    		}
+		}
+		return ret;
+	}
+
+};
 
 template <typename T>
 std::ostream& operator<<(std::ostream& os, const Matrice<T>& mat) {
@@ -30,3 +47,5 @@ std::ostream& operator<<(std::ostream& os, const Matrice<T>& mat) {
 	}
     return os;
 }
+
+#include "Vector.hpp"
