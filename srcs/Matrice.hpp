@@ -13,12 +13,23 @@ private:
 
 public:
     Matrice(size_t x, size_t y) : data(x, std::vector<T>(y, T(0))) {}
+	Matrice(const Matrice<T>& other) : data(other.data) {}
 
     size_t size_x() const { return data.size(); }
     size_t size_y() const { return data.empty() ? 0 : data[0].size(); }
 
     T& operator()(size_t x, size_t y) { return data[x][y]; }
     const T& operator()(size_t x, size_t y) const { return data[x][y]; }
+	Matrice<T>& operator=(const Matrice<T>& other)
+	{
+		for (size_t i = 0; i < other.size_x(); ++i){
+			for (size_t j = 0; j < other.size_y(); ++j){
+				data[i][j] = other(i, j);
+			}
+		}
+		return *this;
+	}
+
 
 	bool isSquare() const {return size_x() == size_y() ? 1 : 0;}
 

@@ -9,3 +9,4 @@ Vector<T>& Vector<T>::operator=(const Vector<T>& other)
    }
    return *this;
 }
+
