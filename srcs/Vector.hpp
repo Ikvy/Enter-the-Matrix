@@ -26,14 +26,15 @@ public:
 	{
 		if (rows * cols != data.size()){
 			std::cerr << "Error : to shape a vector into a matrice, rows * cols must be equal to the vector size\n";
-			exit(EXIT_FAILURE); } ////////to be treated
+			exit(EXIT_FAILURE); 
+		} ////////to be treated
 		
 		Matrice<T> ret(rows, cols);
 		size_t k = 0;
 		for (size_t i = 0; i < rows; ++i){
 			for (size_t j = 0; j < cols; ++j){
-			ret(i, j) = data[k];
-			++k;
+				ret(i, j) = data[k];
+				++k;
 			}
 		}
 		return ret;

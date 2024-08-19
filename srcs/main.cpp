@@ -17,10 +17,13 @@ int main() {
 	std::cout << "Matrice 1: \n" << mat << std::endl;
 
 	Vector<double> test = mat.toVector();
-	std::cout << "matrice 1 to vector X :\n" << test << std::endl;
-	//test.push_back(0);
-   // std::cout << "Vector X after push_back: " << test << std::endl;
-	mat = test.toMatrice(3, 3);
 
-	std::cout << "vector X to matrice 1 :\n" << mat << std::endl;
+	std::cout << "vector test is the matrice 1 :\n" << test << std::endl;
+	test.push_back(10);
+	test.push_back(10);
+	test.push_back(10);
+    std::cout << "Vector test after push_back: " << test << std::endl;
+	mat = test.toMatrice(4, 3);
+
+	std::cout << "vector test to matrice test :\n" << mat << std::endl;
 }
