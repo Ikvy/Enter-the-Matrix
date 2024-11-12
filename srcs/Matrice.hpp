@@ -33,11 +33,11 @@ public:
 	}
 
 	Matrice<T>& operator=(const Matrice<T>& other) {
-    if (this != &other) {
-        data = other.data;
-    }
-    return *this;
-}
+    	if (this != &other) {
+    	    data = other.data;
+    	}
+    	return *this;
+	}
 
 	bool isSquare() const { return size_x() == size_y(); }
 
@@ -52,6 +52,36 @@ public:
 		}
 		return ret;
 	}
+/////////////////////////////////////////////ex1
+	void add(const Matrice<T>& mat) {
+        if (size_x() != mat.size_x() || size_y() != mat.size_y()) {
+            throw std::invalid_argument("Matrices must be of the same size for addition.");
+        }
+        for (size_t i = 0; i < size_x(); ++i) {
+            for (size_t j = 0; j < size_y(); ++j) {
+                data[i][j] += mat(i, j);
+            }
+        }
+    }
+
+	void sub(const Matrice<T>& mat) {
+        if (size_x() != mat.size_x() || size_y() != mat.size_y()) {
+            throw std::invalid_argument("Matrices must be of the same size for subtraction.");
+        }
+        for (size_t i = 0; i < size_x(); ++i) {
+            for (size_t j = 0; j < size_y(); ++j) {
+                data[i][j] -= mat(i, j);
+            }
+        }
+    }
+
+	void scl(const T& scalar) {
+        for (size_t i = 0; i < size_x(); ++i) {
+            for (size_t j = 0; j < size_y(); ++j) {
+                data[i][j] *= scalar;
+            }
+        }
+    }
 
 };
 

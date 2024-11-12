@@ -1,24 +1,40 @@
-SRCS	= srcs/Matrice.cpp \
-		  srcs/Vector.cpp \
-		  srcs/main.cpp \
-
-OBJS	=  ${SRCS:.cpp=.o}
-
+# Nom de l'exécutable final
 NAME	= enterTheMatrix
+
+# Compilateur et options
 CC		= c++
+CFLAGS	= -Wall -Wextra -Werror -std=c++11
+
+# Répertoires
+SRC_DIR	= srcs
+BUILD_DIR = build
+
+SRCS	= $(SRC_DIR)/Matrice.cpp \
+		  $(SRC_DIR)/Vector.cpp \
+		  $(SRC_DIR)/main.cpp
+
+OBJS	= $(addprefix $(BUILD_DIR)/, $(notdir $(SRCS:.cpp=.o)))
+
 RM		= rm -f
-CFLAGS	= -Wall -Wextra -Werror
+RMDIR	= rm -rf
 
-all:	${NAME}
+all:	$(NAME)
 
-${NAME}:	${OBJS}
-	${CC} ${CFLAGS} -o ${NAME} ${SRCS}
+$(NAME):	$(OBJS)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
+
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp | $(BUILD_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Crée le dossier build s'il n'existe pas
+$(BUILD_DIR):
+	mkdir -p $(BUILD_DIR)
 
 clean:
-		${RM} ${OBJS}
+	$(RMDIR) $(BUILD_DIR)
 
 fclean:	clean
-	${RM} ${NAME}
+	$(RM) $(NAME)
 
 re:		fclean all
 
