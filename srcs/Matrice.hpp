@@ -52,7 +52,7 @@ public:
 		}
 		return ret;
 	}
-/////////////////////////////////////////////ex1
+/////////////////////////////////////////////ex00
 	void add(const Matrice<T>& mat) {
         if (size_x() != mat.size_x() || size_y() != mat.size_y()) {
             throw std::invalid_argument("Matrices must be of the same size for addition.");
@@ -82,6 +82,7 @@ public:
             }
         }
     }
+
 
 };
 

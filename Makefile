@@ -11,6 +11,7 @@ BUILD_DIR = build
 
 SRCS	= $(SRC_DIR)/Matrice.cpp \
 		  $(SRC_DIR)/Vector.cpp \
+		  $(SRC_DIR)/linearCombination.cpp \
 		  $(SRC_DIR)/main.cpp
 
 OBJS	= $(addprefix $(BUILD_DIR)/, $(notdir $(SRCS:.cpp=.o)))

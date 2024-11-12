@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include <initializer_list>
 
 template <typename T>
 
@@ -15,6 +16,7 @@ public:
 //init stuff
     Vector(size_t size) : data(size, T(0)) {}
 	Vector(const Vector<T>& other) : data(other.data) {}
+	Vector(std::initializer_list<T> init) : data(init) {}
 
     size_t size() const { return data.size(); }
 	T& operator[](size_t index) { return data[index]; }
@@ -43,7 +45,7 @@ public:
 	}
 
 
-//////////////////////////////////ex 0
+//////////////////////////////////ex 00
 	void add(const Vector<T>& v) {
         if (v.size() != size()) {
             throw std::invalid_argument("Vectors must be of the same size for addition.");
@@ -67,6 +69,7 @@ public:
             data[i] *= scalar;
         }
     }
+
 };
 
 
