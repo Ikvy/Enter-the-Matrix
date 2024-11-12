@@ -39,10 +39,7 @@ public:
     return *this;
 }
 
-
-
 	bool isSquare() const { return size_x() == size_y(); }
-
 
 	Vector<T> toVector() const{
 		Vector<T> ret(size_x() * size_y());
