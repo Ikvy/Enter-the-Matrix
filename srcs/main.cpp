@@ -112,6 +112,32 @@ void test_lerp() {
     }
 }
 
+void test_dot_product() {
+    try {
+        Vector<float> u1 = {0.0f, 0.0f};
+        Vector<float> v1 = {1.0f, 1.0f};
+        std::cout << "Dot product of u1 and v1: " << u1.dot(v1) << "\n"; // 0.0
+
+        Vector<float> u2 = {1.0f, 1.0f};
+        Vector<float> v2 = {1.0f, 1.0f};
+        std::cout << "Dot product of u2 and v2: " << u2.dot(v2) << "\n"; // 2.0
+
+        Vector<float> u3 = {-1.0f, 6.0f};
+        Vector<float> v3 = {3.0f, 2.0f};
+        std::cout << "Dot product of u3 and v3: " << u3.dot(v3) << "\n"; // 9.0
+
+        // diff in sizes
+        Vector<float> u4 = {1.0f, 2.0f};
+        Vector<float> v4 = {1.0f};
+        // MUST be an exeption
+        std::cout << "Dot product of u4 and v4: " << u4.dot(v4) << "\n"; // Exception
+
+    } catch (const std::invalid_argument& e) {
+        std::cerr << "Exception during dot product: " << e.what() << "\n";
+    }
+}
+
+
 int main() {
     try {
         std::cout << "===== Test of vector operations =====\n";
@@ -125,7 +151,11 @@ int main() {
 
         std::cout << "\n===== Test of linear interpolation =====\n";
         test_lerp();
-    } catch (const std::exception& e) {
+
+		std::cout << "\n===== Test of dot product (vector) =====\n";
+		test_dot_product();
+
+	} catch (const std::exception& e) {
         std::cerr << "Unexpected error: " << e.what() << "\n";
     }
 

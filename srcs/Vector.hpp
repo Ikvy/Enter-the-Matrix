@@ -65,6 +65,20 @@ public:
         }
     }
 
+	float dot(const Vector& v) const {
+        // same size
+        if (data.size() != v.data.size()) {
+            throw std::invalid_argument("Error: Vectors must have the same dimension.");
+        }
+        
+        float result = 0.0f;
+        // actual stuf
+        for (size_t i = 0; i < data.size(); ++i) {
+            result += data[i] * v.data[i];
+        }
+        return result;
+    }
+
     Matrice<T> toMatrice(size_t rows, size_t cols) const {
         if (rows * cols != data.size()) {
             throw std::invalid_argument("Rows * cols must be equal to the vector size for conversion to matrix.");
