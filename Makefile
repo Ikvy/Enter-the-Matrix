@@ -9,7 +9,7 @@ CFLAGS	= -Wall -Wextra -Werror -std=c++11
 SRC_DIR	= srcs
 BUILD_DIR = build
 
-SRCS	= $(SRC_DIR)/Matrice.cpp \
+SRCS	= $(SRC_DIR)/Matrix.cpp \
 		  $(SRC_DIR)/Vector.cpp \
 		  $(SRC_DIR)/linearCombination.cpp \
 		  $(SRC_DIR)/main.cpp
