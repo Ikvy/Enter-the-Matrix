@@ -22,7 +22,7 @@ Vector<T> linear_combination(const std::vector<Vector<T>>& u, const std::vector<
             result[j] += u[i][j] * coefs[i];
         }
     }
-
+    
     return result;
 }
 

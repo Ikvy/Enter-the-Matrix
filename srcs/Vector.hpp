@@ -1,8 +1,9 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include <cmath>
 #include <initializer_list>
-#include <stdexcept>  // pour std::out_of_range, std::invalid_argument
+#include <stdexcept>
 
 template <typename T>
 class Matrice;  // Déclaration préalable pour la classe Matrice
@@ -41,6 +42,7 @@ public:
         return *this;
     }
 
+    // Operations on vectors
     void add(const Vector<T>& v) {
         if (v.size() != size()) {
             throw std::invalid_argument("Vectors must be of the same size for addition.");
@@ -93,8 +95,32 @@ public:
         return ret;
     }
     
+    float norm_1() const { //sum of absolute
+        float sum = 0.0f;
+        for (size_t i = 0; i < size(); ++i) {
+            sum += std::abs(data[i]);
+        }
+        return sum;
+    }
+
+    float norm() const { //square root of sum of square 
+        float sum = 0.0f;
+        for (size_t i = 0; i < size(); ++i) {
+            sum += data[i] * data[i];
+        }
+        return std::sqrt(sum);
+    }
+
+    float norm_inf() const { //biggest abs number
+        float maxVal = 0.0f;
+        for (size_t i = 0; i < size(); ++i) {
+            maxVal = std::max(maxVal, static_cast<float>(std::abs(data[i])));
+        }
+        return maxVal;
+    }
 };
 
+// Stream output for vectors
 template <typename T>
 std::ostream& operator<<(std::ostream& os, const Vector<T>& vec) {
     os << "[ ";

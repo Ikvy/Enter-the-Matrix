@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 #include <vector>
-#include "Vector.hpp"  // Déplace cette inclusion avant pour éviter les dépendances circulaires
+#include "Vector.hpp"
 
 template <typename T>
 class Matrice {

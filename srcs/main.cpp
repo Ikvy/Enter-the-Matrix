@@ -137,6 +137,32 @@ void test_dot_product() {
     }
 }
 
+void test_norms() {
+    try {
+        std::cout << "===== Test of vector norms =====\n";
+
+        Vector<float> u1 = {0.f, 0.f, 0.f};
+        std::cout << "u1 = " << u1 << "\n";
+        std::cout << "norm_1: " << u1.norm_1()
+                  << ", norm_2: " << u1.norm()
+                  << ", norm_inf: " << u1.norm_inf() << "\n\n";
+
+        Vector<float> u2 = {1.f, 2.f, 3.f};
+        std::cout << "u2 = " << u2 << "\n";
+        std::cout << "norm_1: " << u2.norm_1()
+                  << ", norm_2: " << u2.norm()
+                  << ", norm_inf: " << u2.norm_inf() << "\n\n";
+
+        Vector<float> u3 = {-1.f, -2.f};
+        std::cout << "u3 = " << u3 << "\n";
+        std::cout << "norm_1: " << u3.norm_1()
+                  << ", norm_2: " << u3.norm()
+                  << ", norm_inf: " << u3.norm_inf() << "\n";
+
+    } catch (const std::exception& e) {
+        std::cerr << "Error in norm tests: " << e.what() << "\n";
+    }
+}
 
 int main() {
     try {
@@ -154,6 +180,10 @@ int main() {
 
 		std::cout << "\n===== Test of dot product (vector) =====\n";
 		test_dot_product();
+
+        std::cout << "\n===== Test of norms =====\n";
+        test_norms();
+
 
 	} catch (const std::exception& e) {
         std::cerr << "Unexpected error: " << e.what() << "\n";
