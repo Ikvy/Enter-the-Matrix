@@ -3,6 +3,7 @@
 #include "Matrix.hpp"
 #include "linearCombination.hpp"
 #include "lerp.hpp"
+#include "angleCos.hpp"
 
 // Exercise 00
 void test_op_vectors() {
@@ -139,8 +140,6 @@ void test_dot_product() {
 
 void test_norms() {
     try {
-        std::cout << "===== Test of vector norms =====\n";
-
         Vector<float> u1 = {0.f, 0.f, 0.f};
         std::cout << "u1 = " << u1 << "\n";
         std::cout << "norm_1: " << u1.norm_1()
@@ -164,6 +163,34 @@ void test_norms() {
     }
 }
 
+void test_angle_cos() {
+    try {
+        Vector<float> u1 = {1.f, 0.f};
+        Vector<float> v1 = {1.f, 0.f};
+        std::cout << "cos(u1, v1) = " << angle_cos(u1, v1) << "\n"; // 1.0
+
+        Vector<float> u2 = {1.f, 0.f};
+        Vector<float> v2 = {0.f, 1.f};
+        std::cout << "cos(u2, v2) = " << angle_cos(u2, v2) << "\n"; // 0.0
+
+        Vector<float> u3 = {-1.f, 1.f};
+        Vector<float> v3 = {1.f, -1.f};
+        std::cout << "cos(u3, v3) = " << angle_cos(u3, v3) << "\n"; // -1.0
+
+        Vector<float> u4 = {2.f, 1.f};
+        Vector<float> v4 = {4.f, 2.f};
+        std::cout << "cos(u4, v4) = " << angle_cos(u4, v4) << "\n"; // 1.0
+
+        Vector<float> u5 = {1.f, 2.f, 3.f};
+        Vector<float> v5 = {4.f, 5.f, 6.f};
+        std::cout << "cos(u5, v5) = " << angle_cos(u5, v5) << "\n"; // ~0.9746318
+
+    } catch (const std::exception& e) {
+        std::cerr << "Error in angle cosine test: " << e.what() << "\n";
+    }
+}
+
+
 int main() {
     try {
         std::cout << "===== Test of vector operations =====\n";
@@ -183,7 +210,9 @@ int main() {
 
         std::cout << "\n===== Test of norms =====\n";
         test_norms();
-
+        
+        std::cout << "\n===== Test of angle cosine =====\n";
+        test_angle_cos();
 
 	} catch (const std::exception& e) {
         std::cerr << "Unexpected error: " << e.what() << "\n";
