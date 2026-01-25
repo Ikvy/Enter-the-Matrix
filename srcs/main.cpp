@@ -31,21 +31,21 @@ void test_op_vectors() {
 }
 
 // Exercise 00
-void test_op_matrices() {
+void test_op_Matrix() {
     try {
-        Matrice<double> mat1(2, 2);
+        Matrix<double> mat1(2, 2);
         mat1(0, 0) = 1.0; mat1(0, 1) = 2.0;
         mat1(1, 0) = 3.0; mat1(1, 1) = 4.0;
 
-        Matrice<double> mat2(2, 2);
+        Matrix<double> mat2(2, 2);
         mat2(0, 0) = 7.0; mat2(0, 1) = 4.0;
         mat2(1, 0) = -2.0; mat2(1, 1) = 2.0;
 
-        // Addition de matrices
+        // Addition de Matrix
         mat1.add(mat2);
         std::cout << "mat1 + mat2 = \n" << mat1;
 
-        // Soustraction de matrices
+        // Soustraction de Matrix
         mat1.sub(mat2);
         std::cout << "mat1 - mat2 = \n" << mat1;
 
@@ -98,12 +98,12 @@ void test_lerp() {
         Vector<float> v = {4.0f, 2.0f};
         std::cout << "lerp([2., 1.], [4., 2.], 0.3) = " << lerp(u, v, 0.3f) << "\n";
 
-        // Test matrices
-        Matrice<float> uMat(2, 2);
+        // Test Matrix
+        Matrix<float> uMat(2, 2);
         uMat(0, 0) = 2.0f; uMat(0, 1) = 1.0f;
         uMat(1, 0) = 3.0f; uMat(1, 1) = 4.0f;
 
-        Matrice<float> vMat(2, 2);
+        Matrix<float> vMat(2, 2);
         vMat(0, 0) = 20.0f; vMat(0, 1) = 10.0f;
         vMat(1, 0) = 30.0f; vMat(1, 1) = 40.0f;
 
@@ -213,7 +213,91 @@ void test_cross_product() {
     }
 }
 
+// Exercise 07
+void test_matrix_multiplications() {
+    try {
+        std::cout << "\n--- Matrix x Vector ---\n";
+        {
+            Matrix<float> u(2, 2);
+            u(0, 0) = 1.f; u(0, 1) = 0.f;
+            u(1, 0) = 0.f; u(1, 1) = 1.f;
 
+            Vector<float> v = {4.f, 2.f};
+
+            std::cout << "u =\n" << u;
+            std::cout << "v = " << v << "\n";
+            std::cout << "u * v = " << u.mul_vec(v) << "\n\n";
+            // [4, 2]
+        }
+
+        {
+            Matrix<float> u(2, 2);
+            u(0, 0) = 2.f; u(0, 1) = 0.f;
+            u(1, 0) = 0.f; u(1, 1) = 2.f;
+
+            Vector<float> v = {4.f, 2.f};
+
+            std::cout << "u * v = " << u.mul_vec(v) << "\n\n";
+            // [8, 4]
+        }
+
+        {
+            Matrix<float> u(2, 2);
+            u(0, 0) = 2.f;  u(0, 1) = -2.f;
+            u(1, 0) = -2.f; u(1, 1) = 2.f;
+
+            Vector<float> v = {4.f, 2.f};
+
+            std::cout << "u * v = " << u.mul_vec(v) << "\n\n";
+            // [4, -4]
+        }
+
+        std::cout << "\n--- Matrix x Matrix ---\n";
+
+        {
+            Matrix<float> u(2, 2);
+            u(0, 0) = 1.f; u(0, 1) = 0.f;
+            u(1, 0) = 0.f; u(1, 1) = 1.f;
+
+            Matrix<float> v(2, 2);
+            v(0, 0) = 1.f; v(0, 1) = 0.f;
+            v(1, 0) = 0.f; v(1, 1) = 1.f;
+
+            std::cout << "u * v =\n" << u.mul_mat(v) << "\n";
+            // identity
+        }
+
+        {
+            Matrix<float> u(2, 2);
+            u(0, 0) = 1.f; u(0, 1) = 0.f;
+            u(1, 0) = 0.f; u(1, 1) = 1.f;
+
+            Matrix<float> v(2, 2);
+            v(0, 0) = 2.f; v(0, 1) = 1.f;
+            v(1, 0) = 4.f; v(1, 1) = 2.f;
+
+            std::cout << "u * v =\n" << u.mul_mat(v) << "\n";
+            // same as v (u = identity)
+        }
+
+        {
+            Matrix<float> u(2, 2);
+            u(0, 0) = 3.f;  u(0, 1) = -5.f;
+            u(1, 0) = 6.f;  u(1, 1) = 8.f;
+
+            Matrix<float> v(2, 2);
+            v(0, 0) = 2.f; v(0, 1) = 1.f;
+            v(1, 0) = 4.f; v(1, 1) = 2.f;
+
+            std::cout << "u * v =\n" << u.mul_mat(v) << "\n";
+            // [-14, -7]
+            // [ 44, 22]
+        }
+
+    } catch (const std::exception& e) {
+        std::cerr << "Error in matrix multiplication tests: " << e.what() << "\n";
+    }
+}
 
 int main() {
     try {
@@ -221,7 +305,7 @@ int main() {
         test_op_vectors();
 
         std::cout << "\n===== Test of matrix operations =====\n";
-        test_op_matrices();
+        test_op_Matrix();
 
         std::cout << "\n===== Test of linear combination =====\n";
         test_linear_combination();
@@ -240,6 +324,9 @@ int main() {
 
         std::cout << "\n===== Test of cross product =====\n";
         test_cross_product();
+        
+        std::cout << "\n===== Test of matrix multiplications =====\n";
+        test_matrix_multiplications();
 
 	} catch (const std::exception& e) {
         std::cerr << "Unexpected error: " << e.what() << "\n";

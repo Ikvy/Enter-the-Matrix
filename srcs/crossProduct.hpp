@@ -9,7 +9,7 @@ Vector<T> cross_product(const Vector<T>& u, const Vector<T>& v) {
     }
 
     Vector<T> result(3);
-    //formula from my old math classes. u * v =
+    //formula from my old math classes: u * v =
     // (u2v3 - u3v2)
     // (u3v1 - u1v3)
     // (u1v2 - u2v1)

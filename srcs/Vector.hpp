@@ -6,7 +6,7 @@
 #include <stdexcept>
 
 template <typename T>
-class Matrice;  // Déclaration préalable pour la classe Matrice
+class Matrix;  // Déclaration préalable pour la classe Matrix
 
 template <typename T>
 class Vector {
@@ -81,11 +81,11 @@ public:
         return result;
     }
 
-    Matrice<T> toMatrice(size_t rows, size_t cols) const {
+    Matrix<T> toMatrix(size_t rows, size_t cols) const {
         if (rows * cols != data.size()) {
             throw std::invalid_argument("Rows * cols must be equal to the vector size for conversion to matrix.");
         }
-        Matrice<T> ret(rows, cols);
+        Matrix<T> ret(rows, cols);
         size_t k = 0;
         for (size_t i = 0; i < rows; ++i) {
             for (size_t j = 0; j < cols; ++j) {
