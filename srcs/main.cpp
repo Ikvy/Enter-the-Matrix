@@ -4,6 +4,7 @@
 #include "linearCombination.hpp"
 #include "lerp.hpp"
 #include "angleCos.hpp"
+#include "crossProduct.hpp"
 
 // Exercise 00
 void test_op_vectors() {
@@ -190,6 +191,29 @@ void test_angle_cos() {
     }
 }
 
+void test_cross_product() {
+    try {
+        Vector<float> u1 = {0.f, 0.f, 1.f};
+        Vector<float> v1 = {1.f, 0.f, 0.f};
+        std::cout << "u1 x v1 = " << cross_product(u1, v1) << "\n";
+        // [0, 1, 0]
+
+        Vector<float> u2 = {1.f, 2.f, 3.f};
+        Vector<float> v2 = {4.f, 5.f, 6.f};
+        std::cout << "u2 x v2 = " << cross_product(u2, v2) << "\n";
+        // [-3, 6, -3]
+
+        Vector<float> u3 = {4.f, 2.f, -3.f};
+        Vector<float> v3 = {-2.f, -5.f, 16.f};
+        std::cout << "u3 x v3 = " << cross_product(u3, v3) << "\n";
+        // [17, -58, -16]
+
+    } catch (const std::exception& e) {
+        std::cerr << "Error in cross product test: " << e.what() << "\n";
+    }
+}
+
+
 
 int main() {
     try {
@@ -213,6 +237,9 @@ int main() {
         
         std::cout << "\n===== Test of angle cosine =====\n";
         test_angle_cos();
+
+        std::cout << "\n===== Test of cross product =====\n";
+        test_cross_product();
 
 	} catch (const std::exception& e) {
         std::cerr << "Unexpected error: " << e.what() << "\n";
