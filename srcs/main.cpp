@@ -299,6 +299,46 @@ void test_matrix_multiplications() {
     }
 }
 
+void test_trace() {
+    try {
+        {
+            Matrix<float> u(2, 2);
+            u(0, 0) = 1.f; u(0, 1) = 0.f;
+            u(1, 0) = 0.f; u(1, 1) = 1.f;
+
+            std::cout << "Matrix:\n" << u;
+            std::cout << "trace(u) = " << u.trace() << "\n\n";
+            // 2.0
+        }
+
+        {
+            Matrix<float> u(3, 3);
+            u(0, 0) = 2.f;  u(0, 1) = -5.f; u(0, 2) = 0.f;
+            u(1, 0) = 4.f;  u(1, 1) = 3.f;  u(1, 2) = 7.f;
+            u(2, 0) = -2.f; u(2, 1) = 3.f;  u(2, 2) = 4.f;
+
+            std::cout << "Matrix:\n" << u;
+            std::cout << "trace(u) = " << u.trace() << "\n\n";
+            // 9.0
+        }
+
+        {
+            Matrix<float> u(3, 3);
+            u(0, 0) = -2.f;  u(0, 1) = -8.f;  u(0, 2) = 4.f;
+            u(1, 0) = 1.f;   u(1, 1) = -23.f; u(1, 2) = 4.f;
+            u(2, 0) = 0.f;   u(2, 1) = 6.f;   u(2, 2) = 4.f;
+
+            std::cout << "Matrix:\n" << u;
+            std::cout << "trace(u) = " << u.trace() << "\n\n";
+            // -21.0
+        }
+
+    } catch (const std::exception& e) {
+        std::cerr << "Error in trace tests: " << e.what() << "\n";
+    }
+}
+
+
 int main() {
     try {
         std::cout << "===== Test of vector operations =====\n";
@@ -327,6 +367,10 @@ int main() {
         
         std::cout << "\n===== Test of matrix multiplications =====\n";
         test_matrix_multiplications();
+        
+        std::cout << "\n===== Test of trace =====\n";
+        test_trace();
+
 
 	} catch (const std::exception& e) {
         std::cerr << "Unexpected error: " << e.what() << "\n";

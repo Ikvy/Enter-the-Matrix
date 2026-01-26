@@ -110,15 +110,26 @@ public:
         for (size_t i = 0; i < size_x(); ++i) {
             for (size_t j = 0; j < m.size_y(); ++j) {
                 T sum = T(0);
-                for (size_t k = 0; k < size_y(); ++k) {
+                for (size_t k = 0; k < size_y(); ++k)
                     sum += (*this)(i, k) * m(k, j);
-                }
                 result(i, j) = sum;
             }
         }
         return result;
     }
+
+    T trace() const { //sum of diagonal
+        if (!isSquare())
+            throw std::runtime_error("Trace is only defined for square matrices.");
+
+        T sum = T(0);
+        for (size_t i = 0; i < size_x(); ++i)
+            sum += data[i][i];
+        return sum;
+    }
+
 };
+
 
 // Stream output for Matrix
 template <typename T>
