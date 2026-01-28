@@ -339,6 +339,91 @@ void test_trace() {
 }
 
 
+void test_transpose() {
+    try {
+        {
+            Matrix<float> u(2, 3);
+            u(0, 0) = 1.f; u(0, 1) = 2.f; u(0, 2) = 3.f;
+            u(1, 0) = 4.f; u(1, 1) = 5.f; u(1, 2) = 6.f;
+
+            std::cout << "Original matrix:\n" << u;
+            std::cout << "Transpose:\n" << u.transpose() << "\n";
+        }
+
+        {
+            Matrix<float> u(3, 3);
+            u(0, 0) = 1.f; u(0, 1) = 2.f; u(0, 2) = 3.f;
+            u(1, 0) = 4.f; u(1, 1) = 5.f; u(1, 2) = 6.f;
+            u(2, 0) = 7.f; u(2, 1) = 8.f; u(2, 2) = 9.f;
+
+            std::cout << "Original matrix:\n" << u;
+            std::cout << "Transpose:\n" << u.transpose() << "\n";
+        }
+
+        {
+            Matrix<float> u(1, 4);
+            u(0, 0) = 42.f;
+            u(0, 1) = -1.f;
+            u(0, 2) = 3.f;
+            u(0, 3) = 7.f;
+
+            std::cout << "Original matrix:\n" << u;
+            std::cout << "Transpose:\n" << u.transpose() << "\n";
+        }
+
+    } catch (const std::exception& e) {
+        std::cerr << "Error in transpose tests: " << e.what() << "\n";
+    }
+}
+
+void test_row_echelon() {
+    try {
+        {
+            Matrix<float> u(3, 3);
+            u(0, 0) = 1.f; u(0, 1) = 0.f; u(0, 2) = 0.f;
+            u(1, 0) = 0.f; u(1, 1) = 1.f; u(1, 2) = 0.f;
+            u(2, 0) = 0.f; u(2, 1) = 0.f; u(2, 2) = 1.f;
+
+            std::cout << "Original matrix:\n" << u;
+            std::cout << "Row-echelon form:\n" << u.row_echelon(u) << "\n";
+        }
+
+        {
+            Matrix<float> u(2, 2);
+            u(0, 0) = 1.f; u(0, 1) = 2.f;
+            u(1, 0) = 3.f; u(1, 1) = 4.f;
+
+            std::cout << "Original matrix:\n" << u;
+            std::cout << "Row-echelon form:\n" << u.row_echelon(u) << "\n";
+        }
+
+        {
+            Matrix<float> u(2, 2);
+            u(0, 0) = 1.f; u(0, 1) = 2.f;
+            u(1, 0) = 2.f; u(1, 1) = 4.f;
+
+            std::cout << "Original matrix:\n" << u;
+            std::cout << "Row-echelon form:\n" << u.row_echelon(u) << "\n";
+        }
+
+        {
+            Matrix<float> u(3, 5);
+            u(0, 0) = 8.f;  u(0, 1) = 5.f;  u(0, 2) = -2.f; u(0, 3) = 4.f;  u(0, 4) = 28.f;
+            u(1, 0) = 4.f;  u(1, 1) = 2.5f;u(1, 2) = 20.f; u(1, 3) = 4.f;  u(1, 4) = -4.f;
+            u(2, 0) = 8.f;  u(2, 1) = 5.f;  u(2, 2) = 1.f;  u(2, 3) = 4.f;  u(2, 4) = 17.f;
+
+            std::cout << "Original matrix:\n" << u;
+            std::cout << "Row-echelon form:\n" << u.row_echelon(u) << "\n";
+        }
+
+    } catch (const std::exception& e) {
+        std::cerr << "Error in row-echelon tests: " << e.what() << "\n";
+    }
+}
+
+
+
+
 int main() {
     try {
         std::cout << "===== Test of vector operations =====\n";
@@ -370,6 +455,12 @@ int main() {
         
         std::cout << "\n===== Test of trace =====\n";
         test_trace();
+        
+        std::cout << "\n===== Test of transpose =====\n";
+        test_transpose();
+
+        std::cout << "\n===== Test of row-echelon form =====\n";
+        test_row_echelon();
 
 
 	} catch (const std::exception& e) {

@@ -128,6 +128,61 @@ public:
         return sum;
     }
 
+    Matrix<T> transpose() const { //invert rows/columns
+        Matrix<T> result(size_y(), size_x());
+
+        for (size_t i = 0; i < size_x(); ++i) {
+            for (size_t j = 0; j < size_y(); ++j)
+                result(j, i) = data[i][j];
+        }
+
+        return result;
+    }
+
+    //this can be used to solve system equations , to find if it's unsolvable or if there's infinite solutions faster that with classic method
+    Matrix<T> row_echelon(const Matrix<T>& input) { // gaussian elimination will be used here
+        Matrix<T> result(input);
+
+        size_t pivot_row = 0;
+        const T EPS = static_cast<T>(1e-6);
+
+        for (size_t col = 0; col < result.size_y() && pivot_row < result.size_x(); ++col) {
+
+            //find pivot (first != 0)
+            size_t pivot = pivot_row;
+            while (pivot < result.size_x() && std::abs(result(pivot, col)) < EPS) {
+                ++pivot;
+            }
+
+            if (pivot == result.size_x())
+                continue;
+
+            // swap rows (in case this column pivot is not on the current col. swapping lines do not change the system) needed to apply gaussian elimination
+            if (pivot != pivot_row) {
+                for (size_t j = 0; j < result.size_y(); ++j) {
+                    std::swap(result(pivot, j), result(pivot_row, j));
+                }
+            }
+
+            // norm pivot row. make it easier to read ( divide it until it's 1 is often better)
+            T pivot_value = result(pivot_row, col);
+            for (size_t j = col; j < result.size_y(); ++j) {
+                result(pivot_row, j) /= pivot_value;
+            }
+
+            // put 0 under pivot (ex : L2 -x * L1 where x is the number that needs to be 0)
+            for (size_t i = pivot_row + 1; i < result.size_x(); ++i) {
+                T factor = result(i, col);
+                for (size_t j = col; j < result.size_y(); ++j) {
+                    result(i, j) -= factor * result(pivot_row, j);
+                }
+            }
+
+            ++pivot_row; //same with every matrix row
+        }
+
+        return result;
+    }
 };
 
 
