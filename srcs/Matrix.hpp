@@ -224,6 +224,67 @@ public:
 
         return det;
     }
+
+    
+    // inverse formula : A * A^-1 = I
+    Matrix<T> inverse() const {  
+        if (!isSquare())
+            throw std::runtime_error("Inverse is only defined for square matrices.");
+
+        const size_t n = size_x();
+        const T EPS = static_cast<T>(1e-6); //always float handling
+
+        // Gauss-Jordan first step : create augmented matrix [A | I]
+        Matrix<T> augmented(n, 2 * n);
+
+        // fill [A | I]
+        for (size_t i = 0; i < n; ++i) {
+            for (size_t j = 0; j < n; ++j) {
+                augmented(i, j) = (*this)(i, j);              // A
+                augmented(i, j + n) = (i == j) ? T(1) : T(0); // I
+            }
+        }
+
+        // Gauss-Jordan second step : elimination to make A an identity matrix
+        for (size_t col = 0; col < n; ++col) {
+
+            size_t pivot = col;
+            while (pivot < n && std::abs(augmented(pivot, col)) < EPS) // find pivot
+                ++pivot;
+
+            if (pivot == n) // det = 0 --> singular matrix
+                throw std::runtime_error("Matrix is singular, cannot invert.");
+
+            if (pivot != col) {
+                for (size_t j = 0; j < 2 * n; ++j)
+                    std::swap(augmented(pivot, j), augmented(col, j)); // swap rows if needed
+            }
+
+            // normalize pivot row
+            T pivot_value = augmented(col, col);
+            for (size_t j = 0; j < 2 * n; ++j) 
+                augmented(col, j) /= pivot_value; //to make A an identity
+
+            // eliminate all other rows
+            for (size_t i = 0; i < n; ++i) {
+                if (i == col)
+                    continue;
+
+                T factor = augmented(i, col);
+                for (size_t j = 0; j < 2 * n; ++j)
+                    augmented(i, j) -= factor * augmented(col, j);
+            }
+        }
+
+        // Gauss-Jordan final step : extract inverse from the I because now I = A^-1
+        Matrix<T> inverse(n, n);
+        for (size_t i = 0; i < n; ++i)
+            for (size_t j = 0; j < n; ++j)
+                inverse(i, j) = augmented(i, j + n);
+
+        return inverse;
+    }
+
 };
 
 

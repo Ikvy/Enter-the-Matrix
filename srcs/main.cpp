@@ -468,6 +468,59 @@ void test_determinant() {
     }
 }
 
+void test_inverse() {
+    try {
+        std::cout << "\n--- Test 1: Identity matrix ---\n";
+        {
+            Matrix<float> u(3, 3);
+            u(0, 0) = 1.f; u(0, 1) = 0.f; u(0, 2) = 0.f;
+            u(1, 0) = 0.f; u(1, 1) = 1.f; u(1, 2) = 0.f;
+            u(2, 0) = 0.f; u(2, 1) = 0.f; u(2, 2) = 1.f;
+
+            std::cout << "Matrix:\n" << u;
+            std::cout << "Inverse:\n" << u.inverse() << "\n";
+        }
+
+        std::cout << "\n--- Test 2: Diagonal matrix ---\n";
+        {
+            Matrix<float> u(3, 3);
+            u(0, 0) = 2.f; u(0, 1) = 0.f; u(0, 2) = 0.f;
+            u(1, 0) = 0.f; u(1, 1) = 2.f; u(1, 2) = 0.f;
+            u(2, 0) = 0.f; u(2, 1) = 0.f; u(2, 2) = 2.f;
+
+            std::cout << "Matrix:\n" << u;
+            std::cout << "Inverse:\n" << u.inverse() << "\n";
+        }
+
+        std::cout << "\n--- Test 3: Random 3x3 matrix ---\n";
+        {
+            Matrix<float> u(3, 3);
+            u(0, 0) = 8.f; u(0, 1) = 5.f; u(0, 2) = -2.f;
+            u(1, 0) = 4.f; u(1, 1) = 7.f; u(1, 2) = 20.f;
+            u(2, 0) = 7.f; u(2, 1) = 6.f; u(2, 2) = 1.f;
+
+            std::cout << "Matrix:\n" << u;
+            std::cout << "Inverse:\n" << u.inverse() << "\n";
+        }
+
+        std::cout << "\n--- Test 4: Singular matrix (should throw) ---\n";
+        try {
+            Matrix<float> u(2, 2);
+            u(0, 0) = 1.f; u(0, 1) = 2.f;
+            u(1, 0) = 2.f; u(1, 1) = 4.f;
+
+            std::cout << "Matrix:\n" << u;
+            std::cout << "Inverse:\n" << u.inverse() << "\n";
+        } catch (const std::exception& e) {
+            std::cerr << "Expected error: " << e.what() << "\n";
+        }
+
+    } catch (const std::exception& e) {
+        std::cerr << "Error in inverse tests: " << e.what() << "\n";
+    }
+}
+
+
 
 
 int main() {
@@ -510,6 +563,9 @@ int main() {
 
         std::cout << "\n===== Test of determinant =====\n";
         test_determinant();
+        
+        std::cout << "\n===== Test of inverse =====\n";
+        test_inverse();
 
 
 	} catch (const std::exception& e) {
