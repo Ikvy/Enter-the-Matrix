@@ -139,9 +139,9 @@ public:
         return result;
     }
 
-    //this can be used to solve system equations , to find if it's unsolvable or if there's infinite solutions faster that with classic method
+    //this can be used to solve system equations, to find if it's unsolvable or if there's infinite solutions faster that with classic method
     Matrix<T> row_echelon(const Matrix<T>& input) { // gaussian elimination will be used here
-        Matrix<T> result(input);
+        Matrix<T> result(input);//copy
 
         size_t pivot_row = 0;
         const T EPS = static_cast<T>(1e-6);
@@ -173,15 +173,56 @@ public:
             // put 0 under pivot (ex : L2 -x * L1 where x is the number that needs to be 0)
             for (size_t i = pivot_row + 1; i < result.size_x(); ++i) {
                 T factor = result(i, col);
-                for (size_t j = col; j < result.size_y(); ++j) {
+                for (size_t j = col; j < result.size_y(); ++j)
                     result(i, j) -= factor * result(pivot_row, j);
-                }
             }
 
             ++pivot_row; //same with every matrix row
         }
-
         return result;
+    }
+
+    T determinant() const { //gaussian elimination like above but with no normalisation (which changes the determinant)
+        if (!isSquare())
+            throw std::runtime_error("Determinant is only defined for square matrices.");
+
+        size_t n = size_x();
+        Matrix<T> tmp(*this);
+        
+        T det = static_cast<T>(1); //init to 1 bc is multiplicative
+        int swap_count = 0;
+        const T EPS = static_cast<T>(1e-6); // Small threshold to avoid numerical instability due to float (f32 imposed in the subject)
+
+        for (size_t col = 0; col < n; ++col) { //gaussian loop
+
+            size_t pivot = col;
+            while (pivot < n && std::abs(tmp(pivot, col)) < EPS)
+                ++pivot;
+
+            if (pivot == n)
+                return static_cast<T>(0); //if no pivot is found --> det = 0 bc det = product of all diagonal
+
+            if (pivot != col) {
+                for (size_t j = 0; j < n; ++j)
+                    std::swap(tmp(pivot, j), tmp(col, j));
+                swap_count++;
+            }
+
+            T pivot_value = tmp(col, col); // pivot is now on diagonal
+            det *= pivot_value; //det = product of diagonal elements is case of upper triangular matrix
+
+            
+            // Eliminate values below the pivot, which does not change det (math says : adding a multiple of a row to another row preserves det) + this makes tmp a upper triangular matrix (we need this)
+            for (size_t i = col + 1; i < n; ++i) {
+                T factor = tmp(i, col) / pivot_value;
+                for (size_t j = col; j < n; ++j)
+                    tmp(i, j) -= factor * tmp(col, j);
+            }
+        }
+        if (swap_count % 2 != 0) //Each row swap multiplies the determinant by -1
+            det = -det;
+
+        return det;
     }
 };
 

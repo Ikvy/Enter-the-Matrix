@@ -421,6 +421,52 @@ void test_row_echelon() {
     }
 }
 
+void test_determinant() {
+    try {
+        {
+            Matrix<float> u(2, 2);
+            u(0, 0) = 1.f;  u(0, 1) = -1.f;
+            u(1, 0) = -1.f; u(1, 1) = 1.f;
+
+            std::cout << "Matrix:\n" << u;
+            std::cout << "Determinant: " << u.determinant() << "\n\n";
+        }
+
+        {
+            Matrix<float> u(3, 3);
+            u(0, 0) = 2.f; u(0, 1) = 0.f; u(0, 2) = 0.f;
+            u(1, 0) = 0.f; u(1, 1) = 2.f; u(1, 2) = 0.f;
+            u(2, 0) = 0.f; u(2, 1) = 0.f; u(2, 2) = 2.f;
+
+            std::cout << "Matrix:\n" << u;
+            std::cout << "Determinant: " << u.determinant() << "\n\n";
+        }
+
+        {
+            Matrix<float> u(3, 3);
+            u(0, 0) = 8.f; u(0, 1) = 5.f;  u(0, 2) = -2.f;
+            u(1, 0) = 4.f; u(1, 1) = 7.f;  u(1, 2) = 20.f;
+            u(2, 0) = 7.f; u(2, 1) = 6.f;  u(2, 2) = 1.f;
+
+            std::cout << "Matrix:\n" << u;
+            std::cout << "Determinant: " << u.determinant() << "\n\n";
+        }
+
+        {
+            Matrix<float> u(4, 4);
+            u(0, 0) = 8.f;  u(0, 1) = 5.f;  u(0, 2) = -2.f; u(0, 3) = 4.f;
+            u(1, 0) = 4.f;  u(1, 1) = 2.5f;u(1, 2) = 20.f; u(1, 3) = 4.f;
+            u(2, 0) = 8.f;  u(2, 1) = 5.f;  u(2, 2) = 1.f;  u(2, 3) = 4.f;
+            u(3, 0) = 28.f; u(3, 1) = -4.f; u(3, 2) = 17.f; u(3, 3) = 1.f;
+
+            std::cout << "Matrix:\n" << u;
+            std::cout << "Determinant: " << u.determinant() << "\n\n";
+        }
+
+    } catch (const std::exception& e) {
+        std::cerr << "Error in determinant tests: " << e.what() << "\n";
+    }
+}
 
 
 
@@ -461,6 +507,9 @@ int main() {
 
         std::cout << "\n===== Test of row-echelon form =====\n";
         test_row_echelon();
+
+        std::cout << "\n===== Test of determinant =====\n";
+        test_determinant();
 
 
 	} catch (const std::exception& e) {
