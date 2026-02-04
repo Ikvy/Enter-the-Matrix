@@ -1,42 +1,62 @@
-# Nom de l'exécutable final
-NAME	= enterTheMatrix
+# Executable name
+NAME        = enterTheMatrix
 
-# Compilateur et options
-CC		= c++
-CFLAGS	= -Wall -Wextra -Werror -std=c++11
+# Compiler
+CC          = c++
+CFLAGS      = -Wall -Wextra -Werror -std=c++11
 
-# Répertoires
-SRC_DIR	= srcs
-BUILD_DIR = build
+# Directories
+SRC_DIR     = srcs
+BONUS_DIR   = bonus
+BUILD_DIR   = build
 
-SRCS	= $(SRC_DIR)/Matrix.cpp \
-		  $(SRC_DIR)/Vector.cpp \
-		  $(SRC_DIR)/linearCombination.cpp \
-		  $(SRC_DIR)/main.cpp
+# Sources
+SRCS        = Matrix.cpp Vector.cpp linearCombination.cpp main.cpp
+BONUS_SRCS  = 
 
-OBJS	= $(addprefix $(BUILD_DIR)/, $(notdir $(SRCS:.cpp=.o)))
+# Full paths
+SRC_FILES       = $(addprefix $(SRC_DIR)/, $(SRCS))
+BONUS_FILES     = $(addprefix $(BONUS_DIR)/, $(BONUS_SRCS))
 
-RM		= rm -f
-RMDIR	= rm -rf
+# Objects
+OBJS        = $(addprefix $(BUILD_DIR)/, $(SRCS:.cpp=.o))
+BONUS_OBJS  = $(addprefix $(BUILD_DIR)/, $(BONUS_SRCS:.cpp=.o))
 
-all:	$(NAME)
+RM          = rm -f
+RMDIR       = rm -rf
 
-$(NAME):	$(OBJS)
+# ===================== RULES =====================
+
+all: $(NAME)
+
+bonus: $(NAME)
+
+# Executable (normal)
+$(NAME): $(OBJS)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
 
+# Executable (bonus)
+bonus: $(BONUS_OBJS)
+	$(CC) $(CFLAGS) -o $(NAME) $(BONUS_OBJS)
+
+# Compile srcs
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp | $(BUILD_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Crée le dossier build s'il n'existe pas
+# Compile bonus
+$(BUILD_DIR)/%.o: $(BONUS_DIR)/%.cpp | $(BUILD_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Build directory
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
 clean:
 	$(RMDIR) $(BUILD_DIR)
 
-fclean:	clean
+fclean: clean
 	$(RM) $(NAME)
 
-re:		fclean all
+re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all bonus clean fclean re
