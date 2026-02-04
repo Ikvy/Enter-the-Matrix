@@ -285,6 +285,46 @@ public:
         return inverse;
     }
 
+    //minimal Gaussian elimination focused only on detecting pivots(more precise and conceptually cleaner)
+    size_t rank() const {
+        Matrix<T> tmp(*this);
+        const T EPS = static_cast<T>(1e-6);
+
+        size_t rank = 0;
+        size_t pivot_row = 0;
+
+        for (size_t col = 0; col < tmp.size_y() && pivot_row < tmp.size_x(); ++col) {
+
+            // find pivot
+            size_t pivot = pivot_row;
+            while (pivot < tmp.size_x() && std::abs(tmp(pivot, col)) < EPS)
+                ++pivot;
+
+            if (pivot == tmp.size_x())
+                continue; // no pivot in this column
+
+            // swap rows if needed
+            if (pivot != pivot_row) {
+                for (size_t j = 0; j < tmp.size_y(); ++j)
+                    std::swap(tmp(pivot, j), tmp(pivot_row, j));
+            }
+
+            // eliminate rows below pivot
+            T pivot_value = tmp(pivot_row, col);
+            for (size_t i = pivot_row + 1; i < tmp.size_x(); ++i) {
+                T factor = tmp(i, col) / pivot_value;
+                for (size_t j = col; j < tmp.size_y(); ++j)
+                    tmp(i, j) -= factor * tmp(pivot_row, j);
+            }
+
+            ++rank;
+            ++pivot_row;
+        }
+
+        return rank;
+    }
+
+
 };
 
 

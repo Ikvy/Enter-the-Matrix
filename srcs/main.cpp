@@ -520,6 +520,49 @@ void test_inverse() {
     }
 }
 
+void test_rank() {
+    try {
+        {
+            Matrix<float> u(3, 3);
+            u(0, 0) = 1.f; u(0, 1) = 0.f; u(0, 2) = 0.f;
+            u(1, 0) = 0.f; u(1, 1) = 1.f; u(1, 2) = 0.f;
+            u(2, 0) = 0.f; u(2, 1) = 0.f; u(2, 2) = 1.f;
+
+            std::cout << "Matrix:\n" << u;
+            std::cout << "Rank: " << u.rank() << "\n\n";
+        }
+
+        {
+            Matrix<float> u(3, 4);
+            u(0, 0) =  1.f; u(0, 1) = 2.f; u(0, 2) = 0.f; u(0, 3) = 0.f;
+            u(1, 0) =  2.f; u(1, 1) = 4.f; u(1, 2) = 0.f; u(1, 3) = 0.f;
+            u(2, 0) = -1.f; u(2, 1) = 2.f; u(2, 2) = 1.f; u(2, 3) = 1.f;
+
+            std::cout << "Matrix:\n" << u;
+            std::cout << "Rank: " << u.rank() << "\n\n";
+        }
+
+        {
+            Matrix<float> u(4, 3);
+            u(0, 0) =  8.f; u(0, 1) =  5.f; u(0, 2) = -2.f;
+            u(1, 0) =  4.f; u(1, 1) =  7.f; u(1, 2) = 20.f;
+            u(2, 0) =  7.f; u(2, 1) =  6.f; u(2, 2) =  1.f;
+            u(3, 0) = 21.f; u(3, 1) = 18.f; u(3, 2) =  7.f;
+
+            std::cout << "Matrix:\n" << u;
+            std::cout << "Rank: " << u.rank() << "\n\n";
+        }
+
+        {
+            Matrix<float> u(3, 3); // zero matrix
+            std::cout << "Matrix:\n" << u;
+            std::cout << "Rank: " << u.rank() << "\n\n";
+        }
+
+    } catch (const std::exception& e) {
+        std::cerr << "Error in rank tests: " << e.what() << "\n";
+    }
+}
 
 
 
@@ -567,6 +610,8 @@ int main() {
         std::cout << "\n===== Test of inverse =====\n";
         test_inverse();
 
+        std::cout << "\n===== Test of rank =====\n";
+        test_rank();
 
 	} catch (const std::exception& e) {
         std::cerr << "Unexpected error: " << e.what() << "\n";
