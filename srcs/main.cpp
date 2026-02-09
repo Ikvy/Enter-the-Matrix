@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 #include "Vector.hpp"
 #include "Matrix.hpp"
 #include "linearCombination.hpp"
@@ -565,6 +566,29 @@ void test_rank() {
 }
 
 
+void test_Projection()
+{
+    float fov   = 60.0f;
+    float ratio = 1.777f;
+    float near  = 0.1f;
+    float far   = 100.0f;
+
+    Matrix<float> test (4, 8);
+    Matrix<float> p = test.projection(fov, ratio, near, far);
+
+    for (size_t i = 0; i < 4; i++)
+    {
+        for (size_t j = 0; j < 4; j++)
+        {
+            std::cout << p(i, j);
+            if (j < 3)
+                std::cout << ", ";
+        }
+        std::cout << std::endl;
+    }
+}
+
+
 
 int main() {
     try {
@@ -612,6 +636,9 @@ int main() {
 
         std::cout << "\n===== Test of rank =====\n";
         test_rank();
+        
+        std::cout << "\n===== Test of projection =====\n"; ////bonus
+        test_Projection();
 
 	} catch (const std::exception& e) {
         std::cerr << "Unexpected error: " << e.what() << "\n";
