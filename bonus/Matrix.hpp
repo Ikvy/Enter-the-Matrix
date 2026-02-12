@@ -144,7 +144,7 @@ public:
         Matrix<T> result(input);//copy
 
         size_t pivot_row = 0;
-        const T EPS = static_cast<T>(1e-6);
+        const float EPS = 1e-6f;
 
         for (size_t col = 0; col < result.size_y() && pivot_row < result.size_x(); ++col) {
 
@@ -191,7 +191,7 @@ public:
         
         T det = static_cast<T>(1); //init to 1 bc is multiplicative
         int swap_count = 0;
-        const T EPS = static_cast<T>(1e-6); // Small threshold to avoid numerical instability due to float (f32 imposed in the subject)
+        const float EPS = 1e-6f;
 
         for (size_t col = 0; col < n; ++col) { //gaussian loop
 
@@ -232,7 +232,7 @@ public:
             throw std::runtime_error("Inverse is only defined for square matrices.");
 
         const size_t n = size_x();
-        const T EPS = static_cast<T>(1e-6); //always float handling
+        const float EPS = 1e-6f;
 
         // Gauss-Jordan first step : create augmented matrix [A | I]
         Matrix<T> augmented(n, 2 * n);
@@ -288,7 +288,7 @@ public:
     //minimal Gaussian elimination focused only on detecting pivots(more precise and conceptually cleaner)
     size_t rank() const {
         Matrix<T> tmp(*this);
-        const T EPS = static_cast<T>(1e-6);
+        const float EPS = 1e-6f;
 
         size_t rank = 0;
         size_t pivot_row = 0;

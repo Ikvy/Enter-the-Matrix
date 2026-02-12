@@ -4,6 +4,9 @@
 #include <cmath>
 #include <initializer_list>
 #include <stdexcept>
+#include <complex>
+#include "conjugateHelper.hpp"
+
 
 template <typename T>
 class Matrix;  // Déclaration préalable pour la classe Matrix
@@ -67,6 +70,7 @@ public:
         }
     }
 
+
     T dot(const Vector<T>& v) const {
         if (size() != v.size()) {
             throw std::invalid_argument("Vectors must have same dimension.");
@@ -75,7 +79,7 @@ public:
         T result = T(0);
 
         for (size_t i = 0; i < size(); ++i) {
-            result += data[i] * std::conj(v[i]); //for complex : u · v = Σ u[i] * conj(v_i) (else it's u · v = Σ u[i] * v[i])
+            result += data[i] * conjugate(v[i]); 
         }
         return result;
     }
@@ -132,3 +136,4 @@ std::ostream& operator<<(std::ostream& os, const Vector<T>& vec) {
 }
 
 #include "Matrix.hpp"
+
