@@ -67,19 +67,19 @@ public:
         }
     }
 
-	float dot(const Vector& v) const {
-        // same size
-        if (data.size() != v.data.size()) {
-            throw std::invalid_argument("Error: Vectors must have the same dimension.");
+    T dot(const Vector<T>& v) const {
+        if (size() != v.size()) {
+            throw std::invalid_argument("Vectors must have same dimension.");
         }
-        
-        float result = 0.0f;
-        // actual stuf
-        for (size_t i = 0; i < data.size(); ++i) {
-            result += data[i] * v.data[i];
+
+        T result = T(0);
+
+        for (size_t i = 0; i < size(); ++i) {
+            result += data[i] * std::conj(v[i]); //for complex : u · v = Σ u[i] * conj(v_i) (else it's u · v = Σ u[i] * v[i])
         }
         return result;
     }
+
 
     Matrix<T> toMatrix(size_t rows, size_t cols) const {
         if (rows * cols != data.size()) {
@@ -106,7 +106,7 @@ public:
     float norm() const { //square root of sum of square 
         float sum = 0.0f;
         for (size_t i = 0; i < size(); ++i) {
-            sum += data[i] * data[i];
+            sum += std::norm(data[i]); //norm(z) = |z|^2
         }
         return std::sqrt(sum);
     }
