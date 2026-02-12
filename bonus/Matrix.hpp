@@ -325,24 +325,24 @@ public:
     }
 
 
-    // Matrix<float> projection(float fov, float ratio, float near, float far)
-    // {
-    //     Matrix<float> proj(4, 4);
+    Matrix<float> projection(float fov, float ratio, float near, float far)
+    {
+        Matrix<float> proj(4, 4);
 
-    //     float fovRad = fov * 3.1415926535f / 180.0f;
-    //     float f = 1.0f / tan(fovRad / 2.0f);
+        float fovRad = fov * 3.1415926535f / 180.0f;
+        float f = 1.0f / tan(fovRad / 2.0f);
 
-    //     proj(0, 0) = f / ratio;
-    //     proj(1, 1) = f;
+        proj(0, 0) = f / ratio;
+        proj(1, 1) = f;
 
-    //     proj(2, 2) = -(far + near) / (far - near);
-    //     proj(2, 3) = -1.0f;
+        proj(2, 2) = -(far + near) / (far - near);
+        proj(2, 3) = -1.0f;
 
-    //     proj(3, 2) = -(2.0f * far * near) / (far - near);
-    //     proj(3, 3) =  0.0f;
+        proj(3, 2) = -(2.0f * far * near) / (far - near);
+        proj(3, 3) =  0.0f;
 
-    //     return proj;
-    // }
+        return proj;
+    }
 
 
 };

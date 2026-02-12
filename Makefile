@@ -1,18 +1,24 @@
-# Executable name
+# ================= EXECUTABLES =================
+
 NAME        = enterTheMatrix
+BONUS_NAME  = bonus_enterTheMatrix
 
-# Compiler
-CC          = c++
-CFLAGS      = -Wall -Wextra -Werror -std=c++11
+# ================= COMPILER ====================
 
-# Directories
-SRC_DIR     = srcs
-BONUS_DIR   = bonus
-BUILD_DIR   = build
+CC      = c++
+CFLAGS  = -Wall -Wextra -Werror -std=c++11
 
-# Sources
+# ================= DIRECTORIES =================
+
+SRC_DIR         = srcs
+BONUS_DIR       = bonus
+BUILD_DIR       = build
+BUILD_BONUS_DIR = build_bonus
+
+# ================= SOURCES =====================
+
 SRCS        = Matrix.cpp Vector.cpp linearCombination.cpp main.cpp
-BONUS_SRCS  = 
+BONUS_SRCS  = Matrix.cpp Vector.cpp linearCombination.cpp main.cpp
 
 # Full paths
 SRC_FILES       = $(addprefix $(SRC_DIR)/, $(SRCS))
@@ -20,42 +26,46 @@ BONUS_FILES     = $(addprefix $(BONUS_DIR)/, $(BONUS_SRCS))
 
 # Objects
 OBJS        = $(addprefix $(BUILD_DIR)/, $(SRCS:.cpp=.o))
-BONUS_OBJS  = $(addprefix $(BUILD_DIR)/, $(BONUS_SRCS:.cpp=.o))
+BONUS_OBJS  = $(addprefix $(BUILD_BONUS_DIR)/, $(BONUS_SRCS:.cpp=.o))
 
-RM          = rm -f
-RMDIR       = rm -rf
+RM      = rm -f
+RMDIR   = rm -rf
 
-# ===================== RULES =====================
+# ================= RULES =======================
 
 all: $(NAME)
 
-bonus: $(NAME)
+bonus: $(BONUS_NAME)
 
-# Executable (normal)
+# -------- NORMAL EXEC --------
+
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
+	$(CC) $(CFLAGS) -o $@ $^
 
-# Executable (bonus)
-bonus: $(BONUS_OBJS)
-	$(CC) $(CFLAGS) -o $(NAME) $(BONUS_OBJS)
-
-# Compile srcs
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp | $(BUILD_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Compile bonus
-$(BUILD_DIR)/%.o: $(BONUS_DIR)/%.cpp | $(BUILD_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
-
-# Build directory
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
+# -------- BONUS EXEC --------
+
+$(BONUS_NAME): $(BONUS_OBJS)
+	$(CC) $(CFLAGS) -o $@ $^
+
+$(BUILD_BONUS_DIR)/%.o: $(BONUS_DIR)/%.cpp | $(BUILD_BONUS_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(BUILD_BONUS_DIR):
+	mkdir -p $(BUILD_BONUS_DIR)
+
+# -------- CLEAN --------
+
 clean:
-	$(RMDIR) $(BUILD_DIR)
+	$(RMDIR) $(BUILD_DIR) $(BUILD_BONUS_DIR)
 
 fclean: clean
-	$(RM) $(NAME)
+	$(RM) $(NAME) $(BONUS_NAME)
 
 re: fclean all
 
